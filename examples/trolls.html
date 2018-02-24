@@ -31,9 +31,10 @@
         // draw
 
         var viz;
+        var config;
 
         function draw() {
-            var config = {
+            config = {
                 container_id: "viz",
                 server_url: "bolt://localhost:7687",
                 server_user: "neo4j",
@@ -47,7 +48,7 @@
                       "Troll": {
                         "caption": "screen_name",
                         "size": "pagerank",
-                        "community": "community"
+                        "community": "partition"
                       }
 
                         //"sizeCypher": "MATCH (n) WHERE id(n) = {id} MATCH (n)-[r]-() RETURN sum(r.weight) AS c"
@@ -73,7 +74,11 @@
 <div id="viz"></div>
 
 
-Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
+Cypher query: <textarea rows="4" cols=50 id="cypher">MATCH (n:Troll)-[r:AMPLIFIED]->(m:Troll) RETURN n,r,m LIMIT 500</textarea><br>
+Neo4j URI: <input id="url" type="text" name="fname" placeholder="bolt://localhost:7687"><br>
+Neo4j Username: <input id="username" type="text" name="fname" placeholder="neo4j"><br>
+Password: <input id="password" type="text" name="fname" placeholder="neo4j"><br>
+
     <input type="submit" value="Submit" id="reload">
     <input type="submit" value="Stabilize" id="stabilize">
 
@@ -85,13 +90,23 @@ Cypher query: <textarea rows="4" cols=50 id="cypher"></textarea><br>
 
         var cypher = $("#cypher").val();
 
+
+
         if (cypher.length > 3) {
-            viz.renderWithCypher(cypher);
+            config['initial_cypher'] = cypher;
         } else {
             console.log("reload");
-            viz.reload();
+            //viz.reload();
 
         }
+
+        config['server_url'] = $("#url").val();
+        config['server_user'] = $("#username").val();
+        config['server_password'] = $("#password").val();
+
+        console.log(config);
+        viz = new NeoVis.default(config);
+        viz.render();
 
     });
 
