@@ -39,6 +39,7 @@
                 server_url: "bolt://localhost:7687",
                 server_user: "neo4j",
                 server_password: "letmein",
+                arrows: true,
                 labels: {
                     "Tweet": {
                         "caption": "text",
@@ -49,7 +50,12 @@
                         "caption": "screen_name",
                         "size": "pagerank",
                         "community": "partition"
-                      }
+                      },
+                    "Suspect": {
+                        "caption": "twitter_sn",
+                        "size": "pagerank",
+                        "community": "partition"
+                    }
 
                         //"sizeCypher": "MATCH (n) WHERE id(n) = {id} MATCH (n)-[r]-() RETURN sum(r.weight) AS c"
 
@@ -58,6 +64,9 @@
                     "AMPLIFIED": {
                         "thickness": "count",
                         "caption": false
+                    },
+                    "FOLLOWS": {
+                        "caption": false   
                     }
                 },
                 initial_cypher: "MATCH (n:Troll)-[r:AMPLIFIED]->(m:Troll) RETURN n,r,m LIMIT 500"
