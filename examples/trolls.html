@@ -112,6 +112,7 @@ Password: <input id="password" type="text" name="fname" placeholder="neo4j"><br>
         config['server_url'] = $("#url").val();
         config['server_user'] = $("#username").val();
         config['server_password'] = $("#password").val();
+        config['encrypted'] = "ENCRYPTION_ON";
 
         console.log(config);
         viz = new NeoVis.default(config);
